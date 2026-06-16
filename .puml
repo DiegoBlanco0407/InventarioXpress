@@ -1,0 +1,40 @@
+@startuml
+title Diagrama de estados: Borrar Pedido
+
+[*] --> PantallaLogin
+
+state "Pantalla Login" as PantallaLogin
+state "Verificando credenciales" as Verificando
+
+PantallaLogin --> Verificando : introducir credenciales\ny pulsar Iniciar sesion
+
+Verificando --> AccesoDenegado : usuario es Peon\no credenciales incorrectas
+Verificando --> PaginaInicial : usuario es Jefe\no Administrador
+
+state "Acceso denegado" as AccesoDenegado
+AccesoDenegado --> [*]
+
+state "Pagina inicial" as PaginaInicial
+
+PaginaInicial --> CarpetaMovimientos : abrir carpeta Movimientos
+
+state "Carpeta Movimientos" as CarpetaMovimientos
+
+CarpetaMovimientos --> VistaTablaPedidos : clic en Pedidos
+
+state "Vista tabla Pedidos" as VistaTablaPedidos
+
+VistaTablaPedidos --> ModalConfirmacion : clic en boton Borrar
+
+state "Modal de confirmacion" as ModalConfirmacion
+
+ModalConfirmacion --> EliminandoPedido : clic en Confirmar
+ModalConfirmacion --> VistaTablaPedidos : clic en Cancelar
+
+state "Eliminando pedido" as EliminandoPedido
+
+EliminandoPedido --> VistaTablaPedidos : pedido eliminado\ny tabla actualizada
+
+VistaTablaPedidos --> [*] : cerrar sesion
+
+@enduml
